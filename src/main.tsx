@@ -7,6 +7,8 @@ import Home from "./pages/Home";
 import Castles from "./pages/Castles";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
+import PrivateRoute from "./layouts/PrivateRoute";
+import CreateCastle from "./pages/CreateCastle";
 
 const router = createBrowserRouter([
   {
@@ -28,6 +30,15 @@ const router = createBrowserRouter([
       {
         path: "castles",
         element: <Castles />
+      },
+      {
+        element: <PrivateRoute />,
+        children: [
+          {
+            path: "create-castle",
+            element: <CreateCastle />
+          }
+        ]
       }
     ]
   }

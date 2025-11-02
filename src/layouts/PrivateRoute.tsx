@@ -1,6 +1,10 @@
+import { Outlet } from "react-router-dom"
+
 const PrivateRoute = () => {
   return (
-    <div>PrivateRoute</div>
+    <div>
+      <Outlet />
+    </div>
   )
 }
 export default PrivateRoute

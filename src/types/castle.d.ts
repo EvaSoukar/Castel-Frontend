@@ -1,16 +1,21 @@
 type CancellationPolicy = "flexible" | "moderate" | "strict";
 
-type Caslte = {
+type Image = {
+  name: string,
+  url: string,
+};
+
+type Castle = {
   id?: number;
   name: string;
   description: string;
   owner: User;
   address: string;
   events?: string[];
-  images : string[];
+  images : Image[];
   facilities?: string[];
   amenities?: string[];
-  rooms: string[];
+  rooms: (Room)[];
   checkIn: string;
   checkOut: string;
   cancellationPolicy: CancellationPolicy;
