@@ -1,3 +1,4 @@
+import CastlesCarousel from "../components/CastlesCarousel";
 import Hero from "../components/Hero";
 
 const Home = () => {
@@ -5,6 +6,7 @@ const Home = () => {
   return (
     <div>
       <Hero />
+      <CastlesCarousel />
     </div>
   )
 }

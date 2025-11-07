@@ -12,7 +12,7 @@ const Navbar = () => {
   return (
     <nav className="flex justify-between items-center px-4 md:px-8 lg:px-12 h-16 text-dark-brown shadow-md">
       <NavLink className="md:hidden" to="/"><img className="max-h-12" src={LogoSmall} alt="Castel Logo" /></NavLink>
-      <NavLink className="hidden md:block" to="/"><img className="max-h-16" src={Logo} alt="Castel Logo" /></NavLink>
+      <NavLink className="hidden md:block" to="/"><img className="max-h-16 pt-4" src={Logo} alt="Castel Logo" /></NavLink>
       <div className="flex gap-3.5 md:hidden">
         <NavLink to="/"><MdSearch className="w-6 h-5" /></NavLink>
         <button className="cursor-pointer" onClick={toggleMenu}><MdOutlineMenu className="w-6 h-5" /></button>

@@ -6,11 +6,12 @@ type Image = {
 };
 
 type Castle = {
-  id?: number;
+  _id?: number;
   name: string;
   description: string;
   owner: User;
   address: string;
+  country: string;
   events?: string[];
   images : Image[];
   facilities?: string[];

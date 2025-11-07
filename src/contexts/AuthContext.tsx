@@ -1,28 +1,75 @@
-// import { createContext, useEffect, useState, type PropsWithChildren } from "react";
-// import axios from "../api/axios";
+import { createContext, type PropsWithChildren, useContext, useEffect, useState } from "react";
+import axios from "../api/axios";
 
-// type UserState = {
-//   users: User[];
-//   currentUser: User | null;
-//   actions: {
-//     createUser: (user: User) => void;
-//     setUser: (user: User | null) => void;
-//     logout: () => void;
-//   }
-// };
+type AuthState = {
+  user: User | null;
+  token: string | null;
+  errorMessage: string | null;
+  actions: {
+    login: (email: string, password: string) => Promise<void>;
+    logout: () => void;
+  }
+};
 
-// type UserActions = UserState["actions"];
+const AuthContext = createContext<AuthState | undefined>(undefined);
 
-// const AuthContext = createContext<UserState | undefined>(undefined);
-// const AuthProvider = ({ children }: PropsWithChildren) => {
-//   const [users, setUsers] = useState<User[]>([]);
-//   const [currentUser, setCurrentUser] = useState<User | null>(null);
+const AuthProvider = ({ children }: PropsWithChildren) => {
+  const [user, setUser] = useState<User | null>(null);
+  const [token, setToken] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-//   useEffect(() => {
-    
-//   }, []);
+  useEffect(() => {
+    const savedToken = localStorage.getItem("authToken");
+    const savedUser = localStorage.getItem("authUser");
+    if (savedToken && savedUser) {
+      setToken(savedToken);
+      setUser(JSON.parse(savedUser));
+    }
+  }, [])
 
-//   const getUser = () => {
-//     const users = User[] = axios.get()
-//   }
-// }
+  const login = async (email: string, password: string) => {
+    try {
+      const res = await axios.post("/auth/login", { email, password });
+      const userData = res.data;
+      if (res.status === 200) {
+        localStorage.setItem("authToken", userData.token);
+        localStorage.setItem("authUser", JSON.stringify(userData));
+        setUser(userData);
+        setToken(userData.token);
+        setErrorMessage(null);
+      } 
+    } catch (error: any) {
+      if (error.response && error.response.data) {
+      setErrorMessage(error.response.data.message || "An error occurred. Please try again.");
+      } else {
+        setErrorMessage("An error occurred. Please check your credentials and try again.");
+      }
+    }
+  }
+
+  const logout = () => {
+    setUser(null);
+    setToken(null);
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("authUser");
+  }
+
+  const actions = {
+    login,
+    logout
+  }
+
+  return (
+    <AuthContext.Provider value={{ user, token, errorMessage, actions }}>{ children }</AuthContext.Provider>
+  )
+}
+
+const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("UseAuth must be used within a AuthProvider");
+  }
+  return context;
+};
+
+export { AuthProvider, useAuth };
