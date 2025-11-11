@@ -7,8 +7,8 @@ import { AuthProvider } from "../contexts/AuthContext";
 const RootLayout = () => {
   return (
     <div className="font-body bg-secondary text-dark-brown">
-      <Navbar />
-        <AuthProvider>
+      <AuthProvider>
+        <Navbar />
           <CastleProvider>
             <main className="min-h-screen">
               <Outlet />

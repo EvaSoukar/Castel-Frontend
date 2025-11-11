@@ -9,7 +9,7 @@ import { useAuth } from "../contexts/AuthContext";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const toggleMenu = () => setIsOpen(!isOpen);
-  const { user } = useAuth(); 
+  const { user, actions } = useAuth(); 
   
   return (
     <nav className="flex justify-between items-center px-4 md:px-8 lg:px-12 h-16 text-dark-brown shadow-md">
@@ -22,10 +22,17 @@ const Navbar = () => {
       <div className="hidden md:flex gap-8 items-baseline-last">
         <NavLink className={({ isActive }) => `hover:text-primary hover:font-semibold ${isActive ? "text-primary font-semibold" : ""}`} to="/">Home</NavLink>
         <NavLink className={({ isActive }) => `hover:text-primary hover:font-semibold ${isActive ? "text-primary font-semibold" : ""}`} to="/castles">Castles</NavLink>
-        <NavLink className={({ isActive }) => `flex flex-col items-center gap-1 hover:text-primary hover:font-semibold ${isActive ? "text-primary font-semibold" : ""}`} to="/login">
-          <HiOutlineUserCircle className="w-6 h-5" />
-          <span>Login / Sign Up</span>
-        </NavLink>
+        {user ? (
+          <div className="flex gap-4 items-center">
+            <span className="text-sm">Hi, <span className="text-action underline capitalize">{user.firstName}</span></span>
+            <button onClick={actions.logout} className="outline-btn px-2 py-0">Logout</button>
+          </div>
+        ) : (
+          <NavLink className={({ isActive }) => `flex flex-col items-center gap-1 hover:text-primary hover:font-semibold ${isActive ? "text-primary font-semibold" : ""}`} to="/login">
+            <HiOutlineUserCircle className="w-6 h-5" />
+            <span>Login / Sign Up</span>
+          </NavLink>
+        )}
       </div>
       {isOpen && (
         <div className="absolute bg-secondary text-secondary p-4 left-0 top-16 flex flex-col gap-4 w-full">
@@ -35,7 +42,14 @@ const Navbar = () => {
           </div>
           <NavLink onClick={toggleMenu} className={({ isActive }) => `bg-primary p-3 rounded-xl hover:text-action hover:font-semibold ${isActive ? "text-action font-semibold" : ""}`} to="/">Home</NavLink>
           <NavLink onClick={toggleMenu} className={({ isActive }) => `bg-primary p-3 rounded-xl hover:text-action hover:font-semibold ${isActive ? "text-action font-semibold" : ""}`} to="/castles">Castles</NavLink>
-          <NavLink onClick={toggleMenu} className={({ isActive }) => `bg-primary p-3 rounded-xl hover:text-action hover:font-semibold ${isActive ? "text-action font-semibold" : ""}`} to="/login">Login / Sign Up</NavLink>
+          {user ? (
+            <div className="flex justify-between items-center">
+              <span className="bg-primary p-3 rounded-xl">Hi, <span className="text-action underline capitalize">{user.firstName}</span></span>
+              <button onClick={() => {actions.logout(); toggleMenu()}} className="outline-btn px-2 py-0">Logout</button>
+            </div>
+          ) : (
+            <NavLink onClick={toggleMenu} className={({ isActive }) => `bg-primary p-3 rounded-xl hover:text-action hover:font-semibold ${isActive ? "text-action font-semibold" : ""}`} to="/login">Login / Sign Up</NavLink>
+          )}
         </div>
       )}
     </nav>
