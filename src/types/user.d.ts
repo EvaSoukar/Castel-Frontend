@@ -6,4 +6,5 @@ type User = {
   phone: string;
   password: string;
   role: "admin" | "guest" | "owner";
+  image?: string; 
 };
