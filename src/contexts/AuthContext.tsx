@@ -6,6 +6,7 @@ type AuthState = {
   token: string | null;
   errorMessage: string | null;
   actions: {
+    register: (user: User) => Promise<void>;
     login: (email: string, password: string) => Promise<void>;
     logout: () => void;
   }
@@ -25,25 +26,41 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
       setToken(savedToken);
       setUser(JSON.parse(savedUser));
     }
-  }, [])
+  }, []);
 
-  const login = async (email: string, password: string) => {
+  const register = async (user: User) => {
     try {
-      const res = await axios.post("/auth/login", { email, password });
+      const res = await axios.post("/auth/register", user);
       const userData = res.data;
-      if (res.status === 200) {
+      if (res.status === 201 && userData.token) {
         localStorage.setItem("authToken", userData.token);
         localStorage.setItem("authUser", JSON.stringify(userData));
         setUser(userData);
         setToken(userData.token);
         setErrorMessage(null);
-      } 
-    } catch (error: any) {
-      if (error.response && error.response.data) {
-      setErrorMessage(error.response.data.message || "An error occurred. Please try again.");
       } else {
-        setErrorMessage("An error occurred. Please check your credentials and try again.");
+        setErrorMessage("Registration failed. No token recieved.")
       }
+    } catch (error: any) {
+      setErrorMessage(error.response.data.message || "An error occurred. Please try again.");
+    }
+  }
+
+  const login = async (email: string, password: string) => {
+    try {
+      const res = await axios.post("/auth/login", { email, password });
+      const userData = res.data;
+      if (res.status === 200 && userData.token) {
+        localStorage.setItem("authToken", userData.token);
+        localStorage.setItem("authUser", JSON.stringify(userData));
+        setUser(userData);
+        setToken(userData.token);
+        setErrorMessage(null);
+      } else {
+        setErrorMessage("Login failed. No token recieved.")
+      }
+    } catch (error: any) {
+      setErrorMessage(error.response.data.message || "Incorrect email or password.");
     }
   }
 
@@ -55,6 +72,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
   }
 
   const actions = {
+    register,
     login,
     logout
   }

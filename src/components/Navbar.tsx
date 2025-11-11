@@ -4,10 +4,12 @@ import Logo from "/Logo.svg";
 import { MdOutlineClose, MdOutlineMenu, MdSearch } from "react-icons/md";
 import { useState } from "react";
 import { HiOutlineUserCircle } from "react-icons/hi";
+import { useAuth } from "../contexts/AuthContext";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const toggleMenu = () => setIsOpen(!isOpen);
+  const { user } = useAuth(); 
   
   return (
     <nav className="flex justify-between items-center px-4 md:px-8 lg:px-12 h-16 text-dark-brown shadow-md">

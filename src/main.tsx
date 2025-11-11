@@ -6,7 +6,6 @@ import RootLayout from "./layouts/RootLayout";
 import Home from "./pages/Home";
 import Castles from "./pages/Castles";
 import Login from "./pages/Login";
-import SignUp from "./components/SignUp";
 import PrivateRoute from "./layouts/PrivateRoute";
 import CreateCastle from "./pages/CreateCastle";
 import Register from "./pages/Register";
@@ -23,7 +22,7 @@ const router = createBrowserRouter([
       },
       {
         path: "signup",
-        element: <SignUp />
+        element: <Register />
       },
       {
         path: "castles",
