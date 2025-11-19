@@ -7,4 +7,5 @@ type User = {
   password: string;
   role: "admin" | "guest" | "owner";
   image?: string; 
+  token?: string;
 };

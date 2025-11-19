@@ -1,13 +1,28 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { isJsonString } from "../helper/helpers";
+import type { LocationMapCoords } from "./Map/LocationMap";
+import { fetchLocationFromCoords, type LocationData } from "./CastleCard";
 
 type CarouselCardProps = {
   castle: Castle;
 }
 const CarouselCard = ({ castle }: CarouselCardProps) => {
   const navigate = useNavigate();
+  const [locationData, setLocationData] = useState<LocationData | null>(null);
+  const [doneLoading, setdoneLoading] = useState(false);
+
+  useEffect(() => {
+    if (isJsonString(castle.address)) {
+      const coords: LocationMapCoords = JSON.parse(castle.address);
+      fetchLocationFromCoords(coords.lat, coords.lng).then((locData) => {
+        setLocationData(locData)
+        setdoneLoading(true)
+      });
+    }
+  }, []);
 
   const handleClick = () => {
-    console.log(castle._id)
     navigate(`/castles/${castle._id}`)
   }
   return (
@@ -19,8 +34,15 @@ const CarouselCard = ({ castle }: CarouselCardProps) => {
       ))}
       <div className="space-y-1 p-3">
         <h6 className="h6 text-dark-brown">{castle.name}</h6>
-        <span className="text-xs text-grey">{castle.address}</span>
-        <p className="text-xs">From {castle.rooms[0].price}€</p>
+        <div>
+          <h4 className="h4">{castle.name}</h4>
+          {doneLoading ? (
+            <span className="text-xs">{locationData?.city}, {locationData?.country}</span>
+          ) : (
+            <span className="text-xs text-gray-400">Loading location...</span>
+          )}
+        </div>
+        <p className="text-xs">From {castle.rooms[0]?.price}€</p>
       </div>
     </div>
   )

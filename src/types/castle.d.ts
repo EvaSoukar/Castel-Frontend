@@ -6,7 +6,7 @@ type Image = {
 };
 
 type Castle = {
-  _id?: number;
+  _id?: string;
   name: string;
   description: string;
   owner: User;
@@ -21,8 +21,9 @@ type Castle = {
   checkOut: string;
   cancellationPolicy: CancellationPolicy;
   houseRules?: string[];
-  safetyFeatures: string[];
+  safetyFeatures?: string[];
   bookings?: string[];
   creadttedAt: string;
   updatedAt: string[];
+  price: number;
 };

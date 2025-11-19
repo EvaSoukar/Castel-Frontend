@@ -33,16 +33,16 @@ const router = createBrowserRouter([
         element: <CastleDetails />
       },
       {
+        path: "login",
+        element: <Login />
+      },
+      {
+        path: "register",
+        element: <Register />
+      },
+      {
         element: <PrivateRoute />,
         children: [
-          {
-            path: "login",
-            element: <Login />
-          },
-          {
-            path: "register",
-            element: <Register />
-          },
           {
             path: "create-castle",
             element: <CreateCastle />

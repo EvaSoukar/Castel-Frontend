@@ -22,6 +22,9 @@ const Navbar = () => {
       <div className="hidden md:flex gap-8 items-baseline-last">
         <NavLink className={({ isActive }) => `hover:text-primary hover:font-semibold ${isActive ? "text-primary font-semibold" : ""}`} to="/">Home</NavLink>
         <NavLink className={({ isActive }) => `hover:text-primary hover:font-semibold ${isActive ? "text-primary font-semibold" : ""}`} to="/castles">Castles</NavLink>
+        {user && (user.role === "admin" || user.role === "owner") && (
+          <NavLink className={({ isActive }) => `hover:text-primary hover:font-semibold ${isActive ? "text-primary font-semibold" : ""}`} to="/create-castle">Create castle</NavLink>
+        )}
         {user ? (
           <div className="flex gap-4 items-center">
             <span className="text-sm">Hi, <span className="text-action underline capitalize">{user.firstName}</span></span>
@@ -42,6 +45,9 @@ const Navbar = () => {
           </div>
           <NavLink onClick={toggleMenu} className={({ isActive }) => `bg-primary p-3 rounded-xl hover:text-action hover:font-semibold ${isActive ? "text-action font-semibold" : ""}`} to="/">Home</NavLink>
           <NavLink onClick={toggleMenu} className={({ isActive }) => `bg-primary p-3 rounded-xl hover:text-action hover:font-semibold ${isActive ? "text-action font-semibold" : ""}`} to="/castles">Castles</NavLink>
+          {user && (user.role === "admin" || user.role === "owner") && (
+            <NavLink onClick={toggleMenu} className={({ isActive }) => `bg-primary p-3 rounded-xl hover:text-action hover:font-semibold ${isActive ? "text-action font-semibold" : ""}`} to="/create-castle">Create castle</NavLink>
+          )}
           {user ? (
             <div className="flex justify-between items-center">
               <span className="bg-primary p-3 rounded-xl">Hi, <span className="text-action underline capitalize">{user.firstName}</span></span>

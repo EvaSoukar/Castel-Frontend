@@ -4,6 +4,7 @@ type Bed = {
 };
 
 type Room = {
+  _id?: string,
   castleId: string;
   name: string;
   capacity: number;

@@ -3,7 +3,7 @@ type Booking = {
   castleId: string;
   roomID: string;
   checkInDate: string;
-  checkoutDate: string;
+  checkOutDate: string;
   guests: number;
   totalPrice: number; 
 };
