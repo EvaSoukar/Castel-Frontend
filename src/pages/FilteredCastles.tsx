@@ -1,9 +1,10 @@
-import { MdOutlineLocationOn } from "react-icons/md";
+import { MdOutlineEvent, MdOutlineLocationOn } from "react-icons/md";
 import CastleCard from "../components/CastleCard";
 import { useCastle } from "../contexts/CastleContext";
 import COUNTRIES from "../constants/countries";
 import { useFilter } from "../contexts/FilterContext";
 import { useEffect, useState } from "react";
+import { AiOutlineUsergroupAdd } from "react-icons/ai";
 
 const FilteredCastles = () => {
   const { castles } = useCastle();
@@ -50,14 +51,19 @@ const FilteredCastles = () => {
   return (
     <div className="page-margin">
       <header className="mt-6 space-y-2 pb-4">
-        {selectedCountry && (
-          <>
-            <h3 className="h3">Showing results for:</h3>
-            <p className="flex gap-1 items-center">
-              <MdOutlineLocationOn /> {countryNameFromCode}
-            </p>
-          </>
-        )}
+        <>
+          <h3 className="h3">Showing results for:</h3>
+          {selectedCountry &&
+            <p className="flex gap-1 items-center"><MdOutlineLocationOn /> {countryNameFromCode}</p>
+          }
+          {selectedCheckInDate && selectedCheckOutDate &&
+            <p className="flex gap-1 items-center"><MdOutlineEvent /> {selectedCheckInDate?.slice(0, 10)} - {selectedCheckOutDate?.slice(0, 10)}</p>
+          }
+          {selectedGuestsCount > 0 &&
+            <p className="flex gap-1 items-center"><AiOutlineUsergroupAdd /> {selectedGuestsCount}</p>
+          }
+
+        </>
 
         <div className="flex justify-between items-center">
           <p>{filteredCastles.length} found</p>

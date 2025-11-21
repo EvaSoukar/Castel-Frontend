@@ -25,7 +25,7 @@ const BookingProvider = ({ children }: PropsWithChildren) => {
       throw new Error("You must be logged in to create a booking");
 
     try {
-      const res = await axios.post(`/castles/${bookingData.castleId}/rooms/${bookingData.roomID}/bookings`, bookingData, {
+      const res = await axios.post(`/castles/${bookingData.castleId}/rooms/${bookingData.roomId}/bookings`, bookingData, {
         headers: {
           Authorization: `Bearer ${user.token}`
         },

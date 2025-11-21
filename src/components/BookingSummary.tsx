@@ -11,6 +11,7 @@ import { MdArrowRightAlt, MdKeyboardArrowLeft, MdOutlineLocationOn } from "react
 import { CiCreditCard1 } from "react-icons/ci";
 import { PiPaypalLogoDuotone } from "react-icons/pi";
 import { FaApplePay } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 
 type Props = {
   castle: Castle;
@@ -45,6 +46,7 @@ export const BookingSummary = ({
   const [locationData, setLocationData] = useState<LocationData | null>(null);
   const [doneLoading, setdoneLoading] = useState(false);
   const [selectedPayment, setSelectedPayment] = useState("credit card");
+  const [bookingError, setBookingError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedPayment(e.target.value);
@@ -65,7 +67,6 @@ export const BookingSummary = ({
   const totalCost = room?.price
 
   const handleConfirm = async () => {
-    // TODO: show differnt view depending on the response from BE
     const guestsNumber = guests.adults + guests.children + guests.pets;
     const bookingData: Booking = {
       userId: user?._id!,
@@ -74,17 +75,21 @@ export const BookingSummary = ({
       checkInDate: selectedCheckInDate!,
       checkOutDate: selectedCheckOutDate!,
       guests: guestsNumber,
-      // TODO: Modify total price, it should be price for all nights
       totalPrice: room?.price!
     }
-    const res = await bookingContext.actions.createBooking(bookingData);
-    // If an ID is return that means the booking was successful
-    if (res._id) {
-      setBookingData({
-        bookingId: res._id,
-        totalPrice: res.totalPrice,
-      })
-      setIsSuccessBooking(true)
+    setBookingError(null);
+    try {
+      const res = await bookingContext.actions.createBooking(bookingData);
+      if (res._id) {
+        setBookingData({ bookingId: res._id, totalPrice: res.totalPrice });
+        setIsSuccessBooking(true);
+      }
+    } catch (err: any) {
+      if (err.response?.data?.message) {
+        setBookingError(err.response.data.message);
+      } else {
+        setBookingError("Booking failed. Please try again.");
+      }
     }
   }
 
@@ -121,8 +126,8 @@ export const BookingSummary = ({
               </div>
               <div className="text-grey text-sm">
                 <p>Our cancellation policy is: <span className="capitalize">{castle.cancellationPolicy}</span></p>
-                <p>Check In after: {castle.checkIn}</p> 
-                <p>Check Out before: {castle.checkOut}</p> 
+                <p>Check In after: {castle.checkIn}</p>
+                <p>Check Out before: {castle.checkOut}</p>
               </div>
             </div>
           </div>
@@ -152,47 +157,59 @@ export const BookingSummary = ({
           <div className="border-b max-w-3/4 border-grey"></div>
           <div className="mb-4">
             {/* TODO: totalCost is actually coast per night */}
-            <span className="font-semibold">Total Cost:</span> ${totalCost}
+            <span className="font-semibold">Price per night:</span> ${totalCost}
           </div>
           <div className="space-y-4 flex flex-col items-center pb-2">
             <h5 className="h5">Select payment method</h5>
             <label className="border border-grey/30 input justify-between max-w-2xs">
               <span className="flex items-center gap-1"><CiCreditCard1 /> Credit card</span>
-              <input 
-                type="radio" 
-                name="Credit card" 
+              <input
+                type="radio"
+                name="Credit card"
                 value="credit card"
-                className="radio-btn border-grey before:bg-primary" 
+                className="radio-btn border-grey before:bg-primary"
                 checked={selectedPayment === "credit card"}
                 onChange={handleChange}
-              />    
+              />
             </label>
             <label className="border border-grey/30 input justify-between max-w-2xs">
               <span className="flex items-center gap-0.5"><PiPaypalLogoDuotone /> PayPal</span>
-              <input 
-                type="radio" 
-                name="PayPal" 
+              <input
+                type="radio"
+                name="PayPal"
                 value="paypal"
-                className="radio-btn border-grey before:bg-primary" 
+                className="radio-btn border-grey before:bg-primary"
                 checked={selectedPayment === "paypal"}
                 onChange={handleChange}
-              />    
+              />
             </label>
             <label className="border border-grey/30 input justify-between max-w-2xs">
               <span className="flex items-center gap-0.5"><FaApplePay /> Apple Pay</span>
-              <input 
-                type="radio" 
-                name="Apple Pay" 
+              <input
+                type="radio"
+                name="Apple Pay"
                 value="apple pay"
-                className="radio-btn border-grey before:bg-primary" 
+                className="radio-btn border-grey before:bg-primary"
                 checked={selectedPayment === "apple pay"}
                 onChange={handleChange}
-              />    
+              />
             </label>
           </div>
-          <div className="text-center">
-            <button className="primary-btn bg-action hover:bg-action-hover text-dark-brown" onClick={handleConfirm}>Confirm Book</button>
-          </div>
+          {bookingError && (
+            <div className="text-error text-sm mb-2 text-center">
+              <p>{bookingError}</p>
+              
+            </div>
+          )}
+          {user ? (
+            <div className="text-center">
+              <button className="primary-btn bg-action hover:bg-action-hover text-dark-brown" onClick={handleConfirm}>Book</button>
+            </div>
+          ) : (
+            <div className="text-center">
+              <Link to="/login" className="primary-btn bg-action hover:bg-action-hover text-dark-brown">Login</Link>
+            </div>
+          )}
         </div>
       </div>
     );

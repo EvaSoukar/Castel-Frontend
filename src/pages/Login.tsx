@@ -15,7 +15,11 @@ const Login = () => {
     await actions.login(email, password);
     if(!email && !password) return;
     if (!errorMessage) {
-      navigate("/");
+      try {
+        navigate(-1);
+      } catch {
+        navigate("/");
+      }
     }
   }
 

@@ -19,8 +19,9 @@ const Hero = () => {
     setSelectedGuestsCount,
   } = useFilter();
 
-  const [startDate, setStartDate] = useState<Date | null>(new Date());
+  const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
+  const [openGuests, setOpenGuests] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,12 +46,12 @@ const Hero = () => {
     <div className="flex flex-col lg:flex-col-reverse lg:items-center lg:justify-center lg:h-[75vh] bg-none bg-center bg-cover lg:[background-image:url('https://images.unsplash.com/photo-1715603518834-02ffe9f996f0?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1472')]">
       <div className="bg-center bg-cover flex items-center justify-center rounded-b-lg [background-image:url('https://images.unsplash.com/photo-1715603518834-02ffe9f996f0?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1472')] lg:bg-none">
         <form onSubmit={handleSubmit} className="max-w-sm lg:max-w-max w-full max-h-3/4 mx-3 p-8 lg:py-6 my-8 bg-secondary/75 rounded-lg lg:rounded-full flex flex-col lg:flex-row items-center justify-center gap-2">
-          <div className="search-input flex items-center gap-2">
+          <div className="search-input flex items-center">
             <MdOutlineLocationOn />
             <select
               value={selectedCountry}
               onChange={(e) => setSelectedCountry(e.target.value)}
-              className="text-sm w-full text-grey"
+              className="text-sm text-grey w-full"
             >
               <option value="">Select Country</option>
               {Object.values(COUNTRIES).map(c => (
@@ -59,8 +60,8 @@ const Hero = () => {
             </select>
           </div>
           <div className="bg-grey w-[1px] h-10 hidden lg:block"></div>
-          <div className="search-input">
-            <MdOutlineEvent />
+          <div className="search-input flex items-center">
+            <span><MdOutlineEvent /></span>
             <DatePicker
               selected={startDate}
               startDate={startDate}
@@ -68,12 +69,15 @@ const Hero = () => {
               minDate={new Date()}
               selectsRange
               onChange={onDateChange}
+              placeholderText="Select Dates"
             />
           </div>
           <div className="bg-grey w-[1px] h-10 hidden lg:block"></div>
-          <div className="search-input">
-            <AiOutlineUsergroupAdd />
-            <div className="flex items-center justify-between input w-80">
+          <div onClick={() => setOpenGuests(prev => !prev)} className="search-input">
+            <AiOutlineUsergroupAdd /> <span className="text-grey">Select Guests</span>
+          </div>
+          {openGuests && (
+            <div className="absolute mt-24 flex items-center justify-between input w-80">
               <span className="w-8">Guests</span>
               <div className="flex items-center gap-2">
                 <button
@@ -88,7 +92,7 @@ const Hero = () => {
                 ><CiCirclePlus className="w-8 h-8 text-grey" /></button>
               </div>
             </div>
-          </div>
+          )}
           <div className="bg-grey w-[1px] h-10 hidden lg:block"></div>
           {/* <div className="search-input">
             <MdOutlineFilterAlt />

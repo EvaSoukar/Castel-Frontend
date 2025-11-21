@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import { useCastle } from "../contexts/CastleContext";
 import { useEffect, useState } from "react";
 import { MdKeyboardArrowDown, MdKeyboardArrowLeft, MdKeyboardArrowUp, MdOutlineEvent, MdOutlineMail, MdOutlinePhoneInTalk, MdOutlineShare } from "react-icons/md";
@@ -11,10 +11,12 @@ import { GuestsSelector, type Guests } from "../components/GuestsSelector";
 import { BookingSummary } from "../components/BookingSummary";
 import { TfiArrowCircleLeft, TfiArrowCircleRight } from "react-icons/tfi";
 import { GoDiamond } from "react-icons/go";
+import { useAuth } from "../contexts/AuthContext";
 
 const CastleDetails = () => {
   const { castleId } = useParams();
   const { castle, actions } = useCastle();
+  const { user } = useAuth();
 
   const navigate = useNavigate();
 
@@ -221,20 +223,26 @@ const CastleDetails = () => {
             <RoomView castleID={castleId!} onRoomSelected={onRoomSelectedForBooking} />
           </div>
           <div className="grid items-baseline-last">
-            {/* <p>Total: </p> */}
-            <button
-              className="primary-btn mt-4 max-w-fit justify-self-end"
-              disabled={
-                !selectedCheckInDate ||
-                !selectedCheckOutDate ||
-                !selectedRoomForBooking ||
-                !guests.adults ||
-                !castle
-              }
-              onClick={() => setShowSummary(true)}
-            >
-              Reserve
-            </button>
+            {user ? (
+              <button
+                className="primary-btn mt-4 max-w-fit justify-self-end"
+                disabled={
+                  !selectedCheckInDate ||
+                  !selectedCheckOutDate ||
+                  !selectedRoomForBooking ||
+                  !guests.adults ||
+                  !castle
+                }
+                onClick={() => setShowSummary(true)}
+              >
+                Reserve
+              </button>
+            ): (
+              <div className="justify-self-end text-center space-y-4">
+              <p>Please Login or <Link to="/register" className="text-action underline text-base">SIGN UP</Link> to book a room.</p>
+              <Link to="/login" className="primary-btn bg-action hover:bg-action-hover text-dark-brown">Login</Link>
+            </div>
+            )}
           </div>
         </>
       )}
