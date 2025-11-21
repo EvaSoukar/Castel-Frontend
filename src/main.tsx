@@ -10,6 +10,8 @@ import PrivateRoute from "./layouts/PrivateRoute";
 import CreateCastle from "./pages/CreateCastle";
 import Register from "./pages/Register";
 import CastleDetails from "./pages/CastleDetails";
+import FilteredCastles from "./pages/FilteredCastles";
+import { MyBooking } from "./pages/MyBooking";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +31,10 @@ const router = createBrowserRouter([
         element: <Castles />
       },
       {
+        path: "FilteredCastles",
+        element: <FilteredCastles />
+      },
+      {
         path: "castles/:castleId",
         element: <CastleDetails />
       },
@@ -39,6 +45,10 @@ const router = createBrowserRouter([
       {
         path: "register",
         element: <Register />
+      },
+      {
+        path: "myBookings",
+        element: <MyBooking />
       },
       {
         element: <PrivateRoute />,

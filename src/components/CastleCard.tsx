@@ -73,19 +73,16 @@ const CastleCard = ({ castle }: CastleCardProps) => {
     }
   }, []);
 
-
   const handleClick = () => {
     navigate(`/castles/${castle._id}`)
   }
 
   return (
     <div onClick={handleClick} className="cursor-pointer max-w-80 w-full flex flex-col gap-2 shadow-xl rounded-md overflow-hidden">
-      {castle.images.map(img => (
-        <img className="max-h-52 h-full object-cover" src={img.url} alt={img.name} />
-      ))}
+      <img className="max-h-52 h-full object-cover" src={castle.images[0].url} alt={castle.images[0].name} />
       <div className="px-4 space-y-4">
         <div>
-          <h4 className="h4">{castle.name}</h4>
+          <h5 className="h5">{castle.name}</h5>
             {doneLoading ? (
             <span className="text-xs">{locationData?.city}, {locationData?.country}</span>
             ) : (

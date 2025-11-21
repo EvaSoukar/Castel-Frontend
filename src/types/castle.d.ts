@@ -23,7 +23,7 @@ type Castle = {
   houseRules?: string[];
   safetyFeatures?: string[];
   bookings?: string[];
-  creadttedAt: string;
+  createdAt: string;
   updatedAt: string[];
   price: number;
 };

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { CheckboxList } from "./CheckboxList";
 import ROOM_AMENITIES from "../constants/roomAmenities";
 import type { RoomForm } from "../pages/CreateCastle";
+import Input from "./Input";
 
 type RoomSectionProps = {
   handleAddRoom: (newRoom: RoomForm) => void;
@@ -47,49 +48,80 @@ export const RoomSection = ({ handleAddRoom }: RoomSectionProps) => {
     }
   }
   return (
-    <div>
-      <div className="space-y-2 border p-2 rounded">
-        <input type="text" placeholder="Room name" value={roomName} onChange={e => setRoomName(e.target.value)} className="border px-2 py-1 rounded w-full" />
-        <input type="number" min={1} placeholder="Capacity" value={roomCapacity} onChange={e => setRoomCapacity(Number(e.target.value))} className="border px-2 py-1 rounded w-full" />
-
-        <div className="flex gap-2 mb-2">
-          <h6 className="h6 text-dark-brown">Beds</h6>
-          <input
+    <div className="space-y-4">
+      <h5 className="h5 mb-2">Add Rooms</h5>
+      <Input
+        label="Room Name"
+        type="text"
+        name="room-name"
+        value={roomName}
+        onChange={e => setRoomName(e.target.value)}
+        required={true}
+      />
+      {/* <input type="text" placeholder="Room name" value={roomName} onChange={e => setRoomName(e.target.value)} className="border px-2 py-1 rounded w-full" /> */}
+      <label htmlFor="capacity">Capacity</label>
+      <input
+        id="capacity" 
+        type="number" 
+        min={1} 
+        value={roomCapacity} 
+        onChange={e => setRoomCapacity(Number(e.target.value))} 
+        className="input" 
+      />
+      <div className="space-y-2">
+        <h6 className="h6">Beds</h6>
+        <div className="flex gap-2">
+          <Input
+            label="Bed Type"
             type="text"
-            placeholder="Bed Type"
+            name="bed-type"
             value={bedType}
             onChange={e => setBedType(e.target.value)}
-            className="border px-2 py-1 rounded w-1/2"
           />
-          <input
-            type="text"
-            placeholder="Beds count"
-            value={bedCount}
+          <Input
+            label="Beds count"
+            type="number"
+            name="bed-count"
+            value={bedCount.toString()}
             onChange={e => setBedCount(parseInt(e.target.value))}
-            className="border px-2 py-1 rounded w-1/2"
           />
-          <button
-            type="button"
-            onClick={handleAddBed}
-            className="bg-blue-500 text-white px-3 py-1 rounded"
-          >
-            Add Bed
-          </button>
         </div>
-        {roomBeds.length > 0 && (
-          <ul className="list-disc pl-5">
-            {roomBeds.map((bed, idx) => (
-              <li key={idx}>{`Type: ${bed.type}, Count: ${bed.count}`} </li>
-            ))}
-          </ul>
-        )}
-
-        <CheckboxList label="Amenities" options={Object.values(ROOM_AMENITIES)} selected={roomAmenities} onChange={setRoomAmenities} />
-
-        <input type="number" min={1} placeholder="Price" value={roomPrice} onChange={e => setRoomPrice(Number(e.target.value))} className="border px-2 py-1 rounded w-full" />
-
-        <button type="button" className="bg-blue-500 text-white px-4 py-1 rounded" onClick={onAddRoom}>Add Room</button>
+        {/* <input
+          type="text"
+          placeholder="Bed Type"
+          value={bedType}
+          onChange={e => setBedType(e.target.value)}
+          className="input"
+        /> */}
+        {/* <input
+          type="text"
+          placeholder="Beds count"
+          value={bedCount}
+          onChange={e => setBedCount(parseInt(e.target.value))}
+          className="border px-2 py-1 rounded w-1/2"
+        /> */}
+        <button type="button" onClick={handleAddBed} className="outline-btn">Add Bed</button>
       </div>
+      {roomBeds.length > 0 && (
+        <ul className="list-disc pl-5">
+          {roomBeds.map((bed, idx) => (
+            <li key={idx}>{`Type: ${bed.type}, Count: ${bed.count}`} </li>
+          ))}
+        </ul>
+      )}
+      <CheckboxList label="Amenities" options={Object.values(ROOM_AMENITIES)} selected={roomAmenities} onChange={setRoomAmenities} />
+      <label htmlFor="price">Price</label>
+      <input 
+        id="price"
+        type="number" 
+        min={1} 
+        placeholder="Price"
+        value={roomPrice} 
+        onChange={e => setRoomPrice(Number(e.target.value))} 
+        className="input" 
+      />
+
+      <button type="button" className="outline-btn" onClick={onAddRoom}>Add Room</button>
     </div>
   )
 }

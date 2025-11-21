@@ -29,7 +29,7 @@ const CastlesCarousel = () => {
         </div>
         <div ref={nordicRef} className="flex overflow-x-auto overflow-y-visible gap-4 pb-3 hidden-scrollbar">
           {castles.map(castle => (
-            <CarouselCard castle={castle} />
+            <CarouselCard key={castle._id} castle={castle} />
           ))}
         </div>
       </div>
@@ -43,9 +43,9 @@ const CastlesCarousel = () => {
         </div>
         <div ref={swedenRef} className="flex overflow-x-auto overflow-y-visible gap-4 pb-3 hidden-scrollbar">
           {castles
-            .filter(castle => castle.country === "Sweden")
+            .filter(castle => castle.country === "se")
             .map(castle => (
-              <CarouselCard castle={castle} />
+              <CarouselCard key={castle._id} castle={castle} />
             ))
           }
         </div>

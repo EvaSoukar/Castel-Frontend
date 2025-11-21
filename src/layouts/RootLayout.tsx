@@ -5,6 +5,7 @@ import { CastleProvider } from "../contexts/CastleContext";
 import { AuthProvider } from "../contexts/AuthContext";
 import { RoomProvider } from "../contexts/RoomContext";
 import { BookingProvider } from "../contexts/BookingContext";
+import { FilterProvider } from "../contexts/FilterContext";
 
 const RootLayout = () => {
   return (
@@ -14,9 +15,11 @@ const RootLayout = () => {
         <CastleProvider>
           <RoomProvider>
             <BookingProvider>
-              <main className="min-h-screen">
-                <Outlet />
-              </main>
+              <FilterProvider>
+                <main className="min-h-screen max-w-6xl mx-auto">
+                  <Outlet />
+                </main>
+              </FilterProvider>
             </BookingProvider>
           </RoomProvider>
         </CastleProvider>

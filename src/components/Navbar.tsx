@@ -9,8 +9,8 @@ import { useAuth } from "../contexts/AuthContext";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const toggleMenu = () => setIsOpen(!isOpen);
-  const { user, actions } = useAuth(); 
-  
+  const { user, actions } = useAuth();
+
   return (
     <nav className="flex justify-between items-center px-4 md:px-8 lg:px-12 h-16 text-dark-brown shadow-md">
       <NavLink className="md:hidden" to="/"><img className="max-h-12" src={LogoSmall} alt="Castel Logo" /></NavLink>
@@ -22,6 +22,9 @@ const Navbar = () => {
       <div className="hidden md:flex gap-8 items-baseline-last">
         <NavLink className={({ isActive }) => `hover:text-primary hover:font-semibold ${isActive ? "text-primary font-semibold" : ""}`} to="/">Home</NavLink>
         <NavLink className={({ isActive }) => `hover:text-primary hover:font-semibold ${isActive ? "text-primary font-semibold" : ""}`} to="/castles">Castles</NavLink>
+        {user &&
+          <NavLink className={({ isActive }) => `hover:text-primary hover:font-semibold ${isActive ? "text-primary font-semibold" : ""}`} to="/myBookings">My Bookings</NavLink>
+        }
         {user && (user.role === "admin" || user.role === "owner") && (
           <NavLink className={({ isActive }) => `hover:text-primary hover:font-semibold ${isActive ? "text-primary font-semibold" : ""}`} to="/create-castle">Create castle</NavLink>
         )}
@@ -51,7 +54,7 @@ const Navbar = () => {
           {user ? (
             <div className="flex justify-between items-center">
               <span className="bg-primary p-3 rounded-xl">Hi, <span className="text-action underline capitalize">{user.firstName}</span></span>
-              <button onClick={() => {actions.logout(); toggleMenu()}} className="outline-btn px-2 py-0">Logout</button>
+              <button onClick={() => { actions.logout(); toggleMenu() }} className="outline-btn px-2 py-0">Logout</button>
             </div>
           ) : (
             <NavLink onClick={toggleMenu} className={({ isActive }) => `bg-primary p-3 rounded-xl hover:text-action hover:font-semibold ${isActive ? "text-action font-semibold" : ""}`} to="/login">Login / Sign Up</NavLink>

@@ -5,6 +5,8 @@ import { useAuth } from "./AuthContext";
 type CastleState = {
   castles: Castle[];
   castle?: Castle;
+  selectedCountry: string;
+  setSelectedCountry: (country: string) => void;
   actions: {
     getCastles: () => Promise<void>;
     getCastle: (id: string) => Promise<void>;
@@ -19,6 +21,7 @@ const CastleContext = createContext<CastleState | undefined>(undefined);
 const CastleProvider = ({ children }: PropsWithChildren) => {
   const [castles, setCastles] = useState<Castle[]>([]);
   const [castle, setCastle] = useState<Castle>();
+  const [selectedCountry, setSelectedCountry] = useState<string>("");
   const { user } = useAuth();
 
   useEffect(() => {
@@ -100,7 +103,7 @@ const CastleProvider = ({ children }: PropsWithChildren) => {
   };
 
   return (
-    <CastleContext.Provider value={{ castles, castle, actions }}>
+    <CastleContext.Provider value={{ castles, castle, selectedCountry, setSelectedCountry, actions }}>
       {children}
     </CastleContext.Provider>
   )

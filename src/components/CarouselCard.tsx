@@ -27,15 +27,12 @@ const CarouselCard = ({ castle }: CarouselCardProps) => {
   }
   return (
     <div onClick={handleClick} className="cursor-pointer min-w-40 max-w-48 lg:max-w-64 flex-shrink-0 bg-white shadow-md rounded-xl overflow-visible">
-      {castle.images.map(img => (
-        <div className="aspect-[4/3] w-full rounded-t-xl overflow-hidden">
-          <img className="h-full w-full object-cover" src={img.url} alt={img.name} />
-        </div>
-      ))}
+      <div className="aspect-[4/3] w-full rounded-t-xl overflow-hidden">
+        <img className="h-full w-full object-cover" src={castle.images[0].url} alt={castle.images[0].name} />
+      </div>
       <div className="space-y-1 p-3">
         <h6 className="h6 text-dark-brown">{castle.name}</h6>
         <div>
-          <h4 className="h4">{castle.name}</h4>
           {doneLoading ? (
             <span className="text-xs">{locationData?.city}, {locationData?.country}</span>
           ) : (

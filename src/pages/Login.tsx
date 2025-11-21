@@ -24,7 +24,7 @@ const Login = () => {
   }
 
   return (
-    <div onClick={handleClose} className="fixed inset-0 flex justify-center items-center bg-black/40 backdrop-blur-sm">
+    <div onClick={handleClose} className="fixed z-50 inset-0 flex justify-center items-center bg-black/40 backdrop-blur-sm">
       <div onClick={(e) => e.stopPropagation()} className="relative py-16 min-w-6/12 w-full max-w-11/12 md:max-w-3/5 bg-secondary space-y-4 flex flex-col justify-center items-center shadow-md rounded-lg">
         <button onClick={handleClose} className="absolute top-3 right-3 cursor-pointer"><MdOutlineClose className="w-6 h-6" /></button>
         <h2 className="h3">Welcome back</h2>

@@ -39,7 +39,15 @@ export function AddressAutocomplete({
   onSelect: (coords: { lat: number; lng: number } | null) => void;
 }) {
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState<any[]>([]);
+  const [results, setResults] = useState<
+    {
+      place_id: number;
+      display_name: string;
+      lat: string;
+      lon: string;
+      [key: string]: any;
+    }[]
+  >([]);
   const [selectedAddress, setSelectedAddress] = useState<string | null>(null);
 
   useEffect(() => {
@@ -64,26 +72,28 @@ export function AddressAutocomplete({
   };
 
   return (
-    <>
-      <input
-        className="w-full border px-2 py-1 rounded"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder="Enter address..."
-        required
-      />
-
-      {query && (
-        <button
-          onClick={handleClear}
-          className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-800"
-        >
-          CLEAR
-        </button>
-      )}
-
+    <div className="relative pt-2 mb-4">
+      <label htmlFor="street">Street</label>
+      <div className="flex items-center gap-2">
+        <input
+          className="input w-full"
+          id="street"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Enter address..."
+          required
+        />
+        {query && (
+          <button
+            onClick={handleClear}
+            className="outline-btn"
+          >
+            CLEAR
+          </button>
+        )}
+      </div>
       {results.length > 0 && !selectedAddress && (
-        <ul className="bg-white border absolute z-10">
+        <ul className="absolute left-0 w-full top-full bg-white border rounded shadow z-10 flex-col items-start">
           {results.map((r) => (
             <li
               key={r.place_id}
@@ -100,6 +110,6 @@ export function AddressAutocomplete({
           ))}
         </ul>
       )}
-    </>
+    </div>
   );
 }

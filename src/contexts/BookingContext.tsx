@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, type PropsWithChildren } from "react";
+import { createContext, useContext, useState, type PropsWithChildren } from "react";
 import axios from "../api/axios";
 import { useAuth } from "./AuthContext";
 
@@ -10,6 +10,7 @@ type BookingState = {
   bookings: Booking[];
   actions: {
     createBooking: (bookingData: Booking) => Promise<BookingResponse>;
+    getBookingsForUser: () => Promise<BookingResponse[]>;
   };
 };
 
@@ -19,9 +20,8 @@ const BookingProvider = ({ children }: PropsWithChildren) => {
   const { user } = useAuth();
   const [bookings, setBookings] = useState<Booking[]>([]);
 
-
   const createBooking = async (bookingData: Booking): Promise<BookingResponse> => {
-    if (!user || (user.role !== "owner" && user.role !== "admin"))
+    if (!user)
       throw new Error("You must be logged in to create a booking");
 
     try {
@@ -39,8 +39,29 @@ const BookingProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
+
+  const getBookingsForUser = async (): Promise<BookingResponse[]> => {
+    if (!user)
+      throw new Error("You must be logged in or provide a userId to get bookings");
+
+    const id = user._id;
+    try {
+      const res = await axios.get(`/bookings/user/${id}`, {
+        headers: {
+          Authorization: `Bearer ${user?.token}`
+        },
+      });
+      setBookings(res.data);
+      return res.data;
+    } catch (err) {
+      console.error("Failed to fetch bookings by user:", err);
+      throw err;
+    }
+  };
+
   const actions: BookingState["actions"] = {
-    createBooking
+    createBooking,
+    getBookingsForUser
   };
 
   return (

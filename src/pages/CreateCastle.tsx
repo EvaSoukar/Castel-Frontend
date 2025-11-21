@@ -10,6 +10,9 @@ import { LocationMap, type LocationMapCoords } from "../components/Map/LocationM
 import { CheckboxList } from "../components/CheckboxList";
 import { RoomSection } from "../components/RoomSection";
 import { ImageSection } from "../components/ImageSection";
+import Input from "../components/Input";
+import { useNavigate } from "react-router-dom";
+import { MdOutlineClose } from "react-icons/md";
 
 export type RoomForm = {
   name: string;
@@ -18,8 +21,6 @@ export type RoomForm = {
   amenities: string[];
   price: number;
 };
-
-
 
 const CreateCastle = () => {
   const { actions } = useCastle();
@@ -39,12 +40,14 @@ const CreateCastle = () => {
   const [cancellationPolicy, setCancellationPolicy] = useState("moderate");
   const [houseRules, setHouseRules] = useState<string[]>([]);
   const [safetyFeatures, setSafetyFeatures] = useState<string[]>([]);
-
-
   const [rooms, setRooms] = useState<RoomForm[]>([]);
-
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const navigate = useNavigate();
+
+  const handleClose = () => {
+    navigate(-1);
+  }
 
   const handleAddRoom = (newRoom: RoomForm) => {
     setRooms(prev => [
@@ -65,10 +68,10 @@ const CreateCastle = () => {
       const castleData = {
         name,
         description,
-        owner: user?.id,          // get this from AuthContext
+        owner: user,
         address,
         country,
-        rooms,                // empty array for now if no rooms yet
+        rooms,
         events,
         images,
         facilities,
@@ -102,104 +105,151 @@ const CreateCastle = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-4xl mx-auto p-4 border rounded space-y-4">
-      <h3 className="text-xl font-bold mb-2">Create Castle</h3>
-
-      {error && <p className="text-red-500">{error}</p>}
-      {success && <p className="text-green-500">Castle created successfully!</p>}
-
-      <div>
-        <label className="block mb-1 font-semibold">Name</label>
-        <input type="text" value={name} onChange={e => setName(e.target.value)} required className="w-full border px-2 py-1 rounded" />
-      </div>
-
-      <div>
-        <label className="block mb-1 font-semibold">Description</label>
-        <textarea value={description} onChange={e => setDescription(e.target.value)} required className="w-full border px-2 py-1 rounded" />
-      </div>
-
-      <label className="block mb-1 font-semibold">Add Images</label>
-      <ImageSection onImageAdded={onImageAdded}/>
-
-      {images.length > 0 && (
-        <ul className="list-disc pl-5">
-          {images.map((img, idx) => (
-            <li key={idx}>{img.name} - <a href={img.url} target="_blank" rel="noopener noreferrer">{img.url}</a></li>
-          ))}
-        </ul>
+    <>
+      {success ? (
+        <div onClick={handleClose} className="fixed inset-0 z-50 flex justify-center items-center bg-black/40 backdrop-blur-sm">
+          <div onClick={(e) => e.stopPropagation()} className="relative py-16 min-w-6/12 w-full max-w-11/12 md:max-w-3/5 bg-secondary space-y-4 flex flex-col justify-center items-center shadow-md rounded-lg">
+            <button onClick={handleClose} className="absolute top-3 right-3 cursor-pointer"><MdOutlineClose className="w-6 h-6" /></button>
+            <span className="text-success">Castle created successfully!</span>
+          </div>
+        </div>
+      ) : (
+        <div className="page-margin space-y-6">
+          <h2 className="h2">Create Castle</h2>
+          <form onSubmit={handleSubmit} className="max-w-4x p-4 shadow-md rounded-lg space-y-6">
+            {error && <p className="text-error text-sm max-w-4/5 px-6">{error}</p>}
+            <Input
+              label="Name"
+              type="text"
+              name="name"
+              value={name}
+              onChange={e => setName(e.target.value)}
+              required={true}
+            />
+            <div>
+              <label htmlFor="description">Description</label>
+              <textarea id="description" value={description} onChange={e => setDescription(e.target.value)} required className="input w-full" />
+            </div>
+            <ImageSection onImageAdded={onImageAdded} />
+            {images.length > 0 && (
+              <ul className="list-disc pl-5">
+                {images.map((img, idx) => (
+                  <li key={idx}>{img.name} - <a href={img.url} target="_blank" rel="noopener noreferrer">{img.url}</a></li>
+                ))}
+              </ul>
+            )}
+            <div>
+              <h6 className="h6 pb-2">Address</h6>
+              {!address ? (
+                <>
+                  <label htmlFor="country">Country</label>
+                  <select
+                    id="country"
+                    value={country}
+                    onChange={e => setCountry(e.target.value)}
+                    className="input"
+                  >
+                    {Object.values(COUNTRIES).map(c => (
+                      <option key={c.name} value={c.value}>{c.name}</option>
+                    ))}
+                  </select>
+                  <AddressAutocomplete country={country} onSelect={setCoords} />
+                  {coords && (
+                    <>
+                      <LocationMap coords={coords} height={200} />
+                      <button
+                        type="button"
+                        className="outline-btn mt-4"
+                        onClick={() => setAddress(JSON.stringify(coords))}
+                      >
+                        Save Location
+                      </button>
+                    </>
+                  )}
+                </>
+              ) : (
+                <div className="m-2">
+                  <p>Address saved succesfully</p>
+                  {coords && (
+                    <>
+                      <LocationMap coords={coords} height={200} />
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
+            <CheckboxList 
+              label="Events" 
+              options={Object.values(EVENTS)} 
+              selected={events} 
+              onChange={setEvents} 
+            />
+            <CheckboxList 
+              label="Facilities" 
+              options={Object.values(FACILITIES)} 
+              selected={facilities} 
+              onChange={setFacilities} 
+            />
+            <CheckboxList 
+              label="Amenities" 
+              options={Object.values(CASTLE_AMENITIES)} 
+              selected={amenities} 
+              onChange={setAmenities} 
+            />
+            <CheckboxList 
+              label="House Rules" 
+              options={["No smoking", "No pets", "No parties"]} 
+              selected={houseRules} 
+              onChange={setHouseRules} 
+            />
+            <CheckboxList 
+              label="Safety Features" 
+              options={["Fire extinguisher", "First aid kit", "Security cameras"]} 
+              selected={safetyFeatures} 
+              onChange={setSafetyFeatures} 
+            />
+            <div className="flex gap-4">
+              <Input
+                label="Check-in"
+                type="time"
+                name="chech-in"
+                value={checkIn}
+                onChange={e => setCheckIn(e.target.value)}
+                required={true}
+              />
+              <Input
+                label="Check-out"
+                type="time"
+                name="chech-out"
+                value={checkOut}
+                onChange={e => setCheckOut(e.target.value)}
+                required={true}
+              />
+            </div>
+            <div>
+              <label htmlFor="policy">Cancellation Policy</label>
+              <select id="policy" value={cancellationPolicy} onChange={e => setCancellationPolicy(e.target.value)} className="input">
+                <option value="flexible">Flexible</option>
+                <option value="moderate">Moderate</option>
+                <option value="strict">Strict</option>
+              </select>
+            </div>
+            <RoomSection handleAddRoom={handleAddRoom} />
+            {rooms.length > 0 && (
+              <div className="mt-4">
+                <h6 className="h6">Rooms Added:</h6>
+                <ul className="list-disc pl-5">
+                  {rooms.map((r, idx) => (
+                    <li key={idx}>{r.name} - Capacity: {r.capacity} - Price: ${r.price}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            <button type="submit" className="primary-btn">Create Castle</button>
+          </form>
+        </div>
       )}
-
-      <div>
-        <div>
-        </div>
-        <label className="block mb-1 font-semibold">Address</label>
-        <label className="block mb-1">Country</label>
-        <select value={country} onChange={e => setCountry(e.target.value)} className="w-full border px-2 py-1 rounded">
-          {Object.values(COUNTRIES).map(c => (
-            <option key={c.name} value={c.value}>{c.name}</option>
-          ))}
-        </select>
-        <label className="block mb-1 font-semibold" >Street</label>
-        <AddressAutocomplete country={country} onSelect={setCoords} />
-        {coords && (
-          <>
-            <LocationMap coords={coords} height={400} />
-
-            <button
-              type="button"
-              className="mt-4 p-2 bg-blue-500 text-white rounded"
-              onClick={() => setAddress(JSON.stringify(coords))}
-            >
-              Save Location
-            </button>
-          </>
-        )}
-      </div>
-
-
-      <CheckboxList label="Events" options={Object.values(EVENTS)} selected={events} onChange={setEvents} />
-      <CheckboxList label="Facilities" options={Object.values(FACILITIES)} selected={facilities} onChange={setFacilities} />
-      <CheckboxList label="Amenities" options={Object.values(CASTLE_AMENITIES)} selected={amenities} onChange={setAmenities} />
-      <CheckboxList label="House Rules" options={["No smoking", "No pets", "No parties"]} selected={houseRules} onChange={setHouseRules} />
-      <CheckboxList label="Safety Features" options={["Fire extinguisher", "First aid kit", "Security cameras"]} selected={safetyFeatures} onChange={setSafetyFeatures} />
-
-      <div className="flex gap-4">
-        <div>
-          <label className="block mb-1 font-semibold">Check-in</label>
-          <input type="time" value={checkIn} onChange={e => setCheckIn(e.target.value)} className="border px-2 py-1 rounded" />
-        </div>
-        <div>
-          <label className="block mb-1 font-semibold">Check-out</label>
-          <input type="time" value={checkOut} onChange={e => setCheckOut(e.target.value)} className="border px-2 py-1 rounded" />
-        </div>
-      </div>
-
-      <div>
-        <label className="block mb-1 font-semibold">Cancellation Policy</label>
-        <select value={cancellationPolicy} onChange={e => setCancellationPolicy(e.target.value)} className="border px-2 py-1 rounded">
-          <option value="flexible">Flexible</option>
-          <option value="moderate">Moderate</option>
-          <option value="strict">Strict</option>
-        </select>
-      </div>
-
-      <hr className="my-4" />
-
-      <h4 className="font-bold mb-2">Add Rooms</h4>
-      <RoomSection handleAddRoom={handleAddRoom} />
-      {rooms.length > 0 && (
-        <div className="mt-4">
-          <h5 className="font-semibold mb-2">Rooms Added:</h5>
-          <ul className="list-disc pl-5">
-            {rooms.map((r, idx) => (
-              <li key={idx}>{r.name} - Capacity: {r.capacity} - Price: ${r.price}</li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded mt-4">Create Castle</button>
-    </form>
+    </>
   );
 };
 

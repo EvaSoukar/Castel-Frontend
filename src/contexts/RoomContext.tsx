@@ -61,7 +61,7 @@ const RoomProvider = ({ children }: PropsWithChildren) => {
     getRoom,
     createRoom,
     updateRoom,
-    deleteRoom
+    deleteRoom,
   };
 
     return (

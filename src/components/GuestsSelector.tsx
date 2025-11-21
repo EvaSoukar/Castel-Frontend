@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { AiOutlineUsergroupAdd } from "react-icons/ai";
+import { CiCircleMinus, CiCirclePlus } from "react-icons/ci";
 
 export type Guests = {
   adults: number;
@@ -18,24 +19,22 @@ export const GuestsSelector = ({ value, onChange }: Props) => {
   };
 
   return (
-    <div className="space-y-4 p-4 border rounded-lg bg-white max-w-xs">
-      <h4 className="font-semibold mb-2">Select how many guests</h4>
+    <div className="space-y-2 md:border border-grey/30 md:p-6 rounded-xl md:mt-6">
+      <h6 className="h6 text-dark-brown flex items-center gap-0.5 pb-1"><AiOutlineUsergroupAdd />Select how many guests</h6>
       {["adults", "children", "pets"].map(type => (
-        <div key={type} className="flex items-center justify-between">
+        <div key={type} className="flex items-center justify-between input max-w-80">
           <span className="capitalize font-medium">{type}</span>
           <div className="flex items-center gap-2">
             <button
               type="button"
-              className="px-2 py-1 bg-gray-200 rounded"
               onClick={() => handleChange(type as keyof Guests, -1)}
               disabled={value[type as keyof Guests] === 0}
-            >-</button>
+            ><CiCircleMinus className="w-8 h-8 text-grey" /></button>
             <span className="w-8 text-center">{value[type as keyof Guests]}</span>
             <button
               type="button"
-              className="px-2 py-1 bg-gray-200 rounded"
               onClick={() => handleChange(type as keyof Guests, 1)}
-            >+</button>
+            ><CiCirclePlus className="w-8 h-8 text-grey" /></button>
           </div>
         </div>
       ))}

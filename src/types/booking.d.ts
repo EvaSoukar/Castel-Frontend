@@ -1,7 +1,8 @@
 type Booking = {
+  _id?: string;
   userId: string;
   castleId: string;
-  roomID: string;
+  roomId: string;
   checkInDate: string;
   checkOutDate: string;
   guests: number;
