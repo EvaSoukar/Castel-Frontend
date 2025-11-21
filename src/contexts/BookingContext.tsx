@@ -39,7 +39,6 @@ const BookingProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
-
   const getBookingsForUser = async (): Promise<BookingResponse[]> => {
     if (!user)
       throw new Error("You must be logged in or provide a userId to get bookings");
@@ -65,9 +64,7 @@ const BookingProvider = ({ children }: PropsWithChildren) => {
   };
 
   return (
-    <BookingContext.Provider value={{ bookings, actions }}>
-      {children}
-    </BookingContext.Provider>
+    <BookingContext.Provider value={{ bookings, actions }}>{children}</BookingContext.Provider>
   )
 };
 

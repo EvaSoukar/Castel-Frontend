@@ -32,7 +32,7 @@ const Input = ({ label, type, value, onChange, name, required = false, pattern, 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange(e);
     validate(e.target.value);
-  }
+  };
 
   return (
     <div>
@@ -49,5 +49,5 @@ const Input = ({ label, type, value, onChange, name, required = false, pattern, 
       {err && <span className="text-error text-xs">{err}</span>}
     </div>
   )
-}
+};
 export default Input;

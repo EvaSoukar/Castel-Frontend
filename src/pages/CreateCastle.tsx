@@ -42,6 +42,7 @@ const CreateCastle = () => {
   const [safetyFeatures, setSafetyFeatures] = useState<string[]>([]);
   const [rooms, setRooms] = useState<RoomForm[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [submitError, setSubmitError] = useState<boolean>(false);
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
 
@@ -64,6 +65,14 @@ const CreateCastle = () => {
     e.preventDefault();
     setError(null);
     setSuccess(false);
+
+    if (!name || !description || !address || !country || images.length === 0 || !checkIn || !checkOut || rooms.length === 0) {
+      setSubmitError(true)
+      return;
+    } else {
+      setSubmitError(false)
+    }
+
     try {
       const castleData = {
         name,
@@ -246,6 +255,9 @@ const CreateCastle = () => {
               </div>
             )}
             <button type="submit" className="primary-btn">Create Castle</button>
+            {submitError && 
+              <p className="text-error">Please fill in all required fields: Name, Description, address, country, one image at least, check-in, check-out and at least one room.</p>
+            }
           </form>
         </div>
       )}

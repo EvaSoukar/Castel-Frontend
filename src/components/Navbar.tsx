@@ -23,7 +23,7 @@ const Navbar = () => {
         <NavLink className={({ isActive }) => `hover:text-primary hover:font-semibold ${isActive ? "text-primary font-semibold" : ""}`} to="/">Home</NavLink>
         <NavLink className={({ isActive }) => `hover:text-primary hover:font-semibold ${isActive ? "text-primary font-semibold" : ""}`} to="/castles">Castles</NavLink>
         {user &&
-          <NavLink className={({ isActive }) => `hover:text-primary hover:font-semibold ${isActive ? "text-primary font-semibold" : ""}`} to="/myBookings">My Bookings</NavLink>
+          <NavLink className={({ isActive }) => `hover:text-primary hover:font-semibold ${isActive ? "text-primary font-semibold" : ""}`} to="/my-bookings">My Bookings</NavLink>
         }
         {user && (user.role === "admin" || user.role === "owner") && (
           <NavLink className={({ isActive }) => `hover:text-primary hover:font-semibold ${isActive ? "text-primary font-semibold" : ""}`} to="/create-castle">Create castle</NavLink>
@@ -48,6 +48,9 @@ const Navbar = () => {
           </div>
           <NavLink onClick={toggleMenu} className={({ isActive }) => `bg-primary p-3 rounded-xl hover:text-action hover:font-semibold ${isActive ? "text-action font-semibold" : ""}`} to="/">Home</NavLink>
           <NavLink onClick={toggleMenu} className={({ isActive }) => `bg-primary p-3 rounded-xl hover:text-action hover:font-semibold ${isActive ? "text-action font-semibold" : ""}`} to="/castles">Castles</NavLink>
+          {user &&
+            <NavLink onClick={toggleMenu} className={({ isActive }) => `bg-primary p-3 rounded-xl hover:text-action hover:font-semibold ${isActive ? "text-action font-semibold" : ""}`} to="/my-bookings">My bookings</NavLink>
+          }
           {user && (user.role === "admin" || user.role === "owner") && (
             <NavLink onClick={toggleMenu} className={({ isActive }) => `bg-primary p-3 rounded-xl hover:text-action hover:font-semibold ${isActive ? "text-action font-semibold" : ""}`} to="/create-castle">Create castle</NavLink>
           )}
@@ -63,5 +66,5 @@ const Navbar = () => {
       )}
     </nav>
   )
-}
+};
 export default Navbar;

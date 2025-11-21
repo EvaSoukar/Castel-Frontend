@@ -1,5 +1,5 @@
 import { AiOutlineUsergroupAdd } from "react-icons/ai"
-import { MdOutlineEvent, MdOutlineFilterAlt, MdOutlineLocationOn } from "react-icons/md"
+import { MdOutlineEvent, MdOutlineLocationOn } from "react-icons/md"
 import { useNavigate } from "react-router-dom";
 import COUNTRIES from "../constants/countries";
 import { useState } from "react";
@@ -84,20 +84,20 @@ const Hero = () => {
                   type="button"
                   onClick={() => setSelectedGuestsCount(selectedGuestsCount - 1)}
                   disabled={selectedGuestsCount === 0}
-                ><CiCircleMinus className="w-8 h-8 text-grey" /></button>
+                >
+                  <CiCircleMinus className="w-8 h-8 text-grey" />
+                </button>
                 <span className="w-8 text-center">{selectedGuestsCount}</span>
                 <button
                   type="button"
                   onClick={() => setSelectedGuestsCount(selectedGuestsCount + 1)}
-                ><CiCirclePlus className="w-8 h-8 text-grey" /></button>
+                >
+                  <CiCirclePlus className="w-8 h-8 text-grey" />
+                </button>
               </div>
             </div>
           )}
           <div className="bg-grey w-[1px] h-10 hidden lg:block"></div>
-          {/* <div className="search-input">
-            <MdOutlineFilterAlt />
-            <input className="text-sm" type="text" placeholder="Filter" />
-          </div> */}
           <button type="submit" className="primary-btn mt-8 lg:mt-0 lg:ml-4">
             Search
           </button>
@@ -110,5 +110,5 @@ const Hero = () => {
       </div>
     </div>
   )
-}
-export default Hero
+};
+export default Hero;

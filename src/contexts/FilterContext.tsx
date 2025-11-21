@@ -27,18 +27,15 @@ const FilterProvider = ({ children }: PropsWithChildren) => {
     if (!checkInDate && !checkOutDate && !guests) {
       return [];
     }
-    console.log("+++++", checkInDate, checkOutDate, guests)
     const response = await axios.get(
       `/castles/${castleId}/rooms/available-rooms?checkInDate=${checkInDate}&checkOutDate=${checkOutDate}&guests=${guests}`
     );
-
-    console.log("!!!!##", response.data)
     return response.data;
-  }
+  };
 
   const actions: FilterState["actions"] = {
     getAvailableRooms,
-  }
+  };
 
   return (
     <FilterContext.Provider value={{

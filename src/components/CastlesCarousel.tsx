@@ -15,7 +15,7 @@ const CastlesCarousel = () => {
         behavior: "smooth"
       });
     } 
-  }
+  };
 
   return (
     <div className="space-y-6 page-margin">
@@ -50,8 +50,7 @@ const CastlesCarousel = () => {
           }
         </div>
       </div>
-
     </div>
   )
-}
-export default CastlesCarousel
+};
+export default CastlesCarousel;

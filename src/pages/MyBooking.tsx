@@ -16,9 +16,9 @@ export const MyBooking = () => {
       ) : (
         <div className="flex flex-col gap-6">
           {bookings.map(booking => (
-            <div key={booking._id} className="border rounded-lg p-4 shadow bg-white">
+            <div key={booking._id} className="max-w-xl w-full border border-grey/30 rounded-lg p-4 shadow bg-secondary">
               <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-2">
-                <span className="font-bold text-primary">Booking ID:</span>
+                <span className="font-bold">Booking ID:</span>
                 <span>{booking._id}</span>
               </div>
               <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-2">
@@ -51,4 +51,4 @@ export const MyBooking = () => {
       )}
     </div>
   );
-}
+};

@@ -55,7 +55,7 @@ const CastleDetails = () => {
 
   const handleBackBtn = () => {
     navigate(-1);
-  }
+  };
 
   const onDateChange = (dates: [Date | null, Date | null]) => {
     const [start, end] = dates;
@@ -75,11 +75,11 @@ const CastleDetails = () => {
 
   const onRoomSelectedForBooking = (newRoomID: string) => {
     setSelectedRoomForBookin(newRoomID);
-  }
+  };
 
   if (!castle) {
     return <p className="page-margin">Loading castle details...</p>;
-  }
+  };
 
   const handlePrevImg = () => setCurrentImgIdx(idx => idx > 0 ? idx - 1 : castle.images.length - 1);
   const handleNextImg = () => setCurrentImgIdx(idx => idx < castle.images.length - 1 ? idx + 1 : 0);
@@ -105,20 +105,24 @@ const CastleDetails = () => {
                 className="w-full h-full object-cover"
                 style={{ maxHeight: "60vh" }}
               />
-              <button
-                className="absolute left-4 top-1/2 -translate-y-1/2 bg-secondary/90 rounded-full p-2 text-white"
-                onClick={handlePrevImg}
-                aria-label="Previous image"
-              >
-                <TfiArrowCircleLeft className="w-6 h-6 fill-primary cursor-pointer" />
-              </button>
-              <button
-                className="absolute right-4 top-1/2 -translate-y-1/2 bg-secondary/90 rounded-full p-2 text-white"
-                onClick={handleNextImg}
-                aria-label="Next image"
-              >
-                <TfiArrowCircleRight className="w-6 h-6 fill-primary cursor-pointer" />
-              </button>
+              {castle.images.length > 1 && (
+                <>
+                  <button
+                    className="absolute left-4 top-1/2 -translate-y-1/2 bg-secondary/90 rounded-full p-2 text-white"
+                    onClick={handlePrevImg}
+                    aria-label="Previous image"
+                  >
+                    <TfiArrowCircleLeft className="w-6 h-6 fill-primary cursor-pointer" />
+                  </button>
+                  <button
+                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-secondary/90 rounded-full p-2 text-white"
+                    onClick={handleNextImg}
+                    aria-label="Next image"
+                  >
+                    <TfiArrowCircleRight className="w-6 h-6 fill-primary cursor-pointer" />
+                  </button>
+                </>
+              )}
             </div>
           )}
           {/* Castle info */}
@@ -170,9 +174,6 @@ const CastleDetails = () => {
                     ))}
                   </ul>
                 )}
-                {/* TODO: block the button if it's not owner or admin */}
-                {/* <button onClick={() => setEditMode(true)} className="bg-gray-600 text-white px-4 py-2 rounded">Edit</button> */}
-
                 {/* Cancellation */}
                 {castle.cancellationPolicy && castle.cancellationPolicy.length > 0 && (
                   <div className="text-grey">
@@ -237,11 +238,11 @@ const CastleDetails = () => {
               >
                 Reserve
               </button>
-            ): (
+            ) : (
               <div className="justify-self-end text-center space-y-4">
-              <p>Please Login or <Link to="/register" className="text-action underline text-base">SIGN UP</Link> to book a room.</p>
-              <Link to="/login" className="primary-btn bg-action hover:bg-action-hover text-dark-brown">Login</Link>
-            </div>
+                <p>Please Login or <Link to="/register" className="text-action underline text-base">SIGN UP</Link> to book a room.</p>
+                <Link to="/login" className="primary-btn bg-action hover:bg-action-hover text-dark-brown">Login</Link>
+              </div>
             )}
           </div>
         </>
@@ -259,5 +260,5 @@ const CastleDetails = () => {
       )}
     </div>
   )
-}
-export default CastleDetails
+};
+export default CastleDetails;

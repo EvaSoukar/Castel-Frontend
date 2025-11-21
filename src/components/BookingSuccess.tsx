@@ -62,9 +62,7 @@ export const BookingSuccess = ({
           <p className="text-sm">{totalPrice}€</p>
         </div>
       </div>
-      <button className="outline-btn" onClick={onClose}>
-        Close
-      </button>
+      <button className="outline-btn" onClick={onClose}>Close</button>
     </div>
   </div>
 );

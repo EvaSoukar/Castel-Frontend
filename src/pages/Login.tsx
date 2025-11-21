@@ -16,16 +16,16 @@ const Login = () => {
     if(!email && !password) return;
     if (!errorMessage) {
       try {
-        navigate(-1);
+        handleClose();
       } catch {
         navigate("/");
       }
-    }
-  }
+    };
+  };
 
   const handleClose = () => {
     navigate(-1);
-  }
+  };
 
   return (
     <div onClick={handleClose} className="fixed z-50 inset-0 flex justify-center items-center bg-black/40 backdrop-blur-sm">
@@ -60,5 +60,5 @@ const Login = () => {
       </div>
     </div>
   )
-}
-export default Login
+};
+export default Login;

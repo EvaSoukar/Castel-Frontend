@@ -40,20 +40,6 @@ export const ImageSection = ({ onImageAdded }: ImageSectionProp) => {
           value={imageUrl}
           onChange={e => setImageUrl(e.target.value)}
         />
-        {/* <input
-          type="text"
-          placeholder="Image Name"
-          value={imageName}
-          onChange={e => setImageName(e.target.value)}
-          className="border px-2 py-1 rounded w-1/2"
-        /> */}
-        {/* <input
-          type="text"
-          placeholder="Image URL"
-          value={imageUrl}
-          onChange={e => setImageUrl(e.target.value)}
-          className="border px-2 py-1 rounded w-1/2"
-        /> */}
         <button type="button" onClick={handleAddImage} className="outline-btn">Add Image</button>
       </div>
     </div>

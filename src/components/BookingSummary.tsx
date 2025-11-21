@@ -35,13 +35,7 @@ export const BookingSummary = ({
   const { user } = useAuth()
   const { room, actions } = useRoom();
   const [isSuccessBooking, setIsSuccessBooking] = useState(false);
-  const [bookingData, setBookingData] = useState<{
-    bookingId: string;
-    totalPrice: number;
-  }>({
-    bookingId: "",
-    totalPrice: 0,
-  });
+  const [bookingData, setBookingData] = useState<{ bookingId: string; totalPrice: number; }>({ bookingId: "", totalPrice: 0 });
   const bookingContext = useBooking();
   const [locationData, setLocationData] = useState<LocationData | null>(null);
   const [doneLoading, setdoneLoading] = useState(false);
@@ -64,7 +58,7 @@ export const BookingSummary = ({
     }
   }, []);
 
-  const totalCost = room?.price
+  const totalCost = room?.price;
 
   const handleConfirm = async () => {
     const guestsNumber = guests.adults + guests.children + guests.pets;
@@ -91,12 +85,12 @@ export const BookingSummary = ({
         setBookingError("Booking failed. Please try again.");
       }
     }
-  }
+  };
 
   const handleClosePopup = () => {
     setIsSuccessBooking(false);
     onConfirm();
-  }
+  };
 
   return isSuccessBooking ?
     <BookingSuccess
@@ -156,7 +150,6 @@ export const BookingSummary = ({
           </div>
           <div className="border-b max-w-3/4 border-grey"></div>
           <div className="mb-4">
-            {/* TODO: totalCost is actually coast per night */}
             <span className="font-semibold">Price per night:</span> ${totalCost}
           </div>
           <div className="space-y-4 flex flex-col items-center pb-2">

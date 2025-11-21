@@ -10,8 +10,8 @@ const FilteredCastles = () => {
   const { castles } = useCastle();
   const { selectedCountry, selectedCheckInDate, selectedCheckOutDate, selectedGuestsCount } = useFilter();
   const { actions } = useFilter();
-  const [availableRooms, setAvailableRooms] = useState<Room[]>([])
-  const [filteredCastles, setFilteredCastles] = useState<Castle[]>([])
+  const [availableRooms, setAvailableRooms] = useState<Room[]>([]);
+  const [filteredCastles, setFilteredCastles] = useState<Castle[]>([]);
 
   useEffect(() => {
     const allCastlesIDs = castles.map(castle => castle._id);
@@ -34,15 +34,14 @@ const FilteredCastles = () => {
   const filterCastles = () => {
     let result = castles;
 
-    // Filter by country if selected
     if (selectedCountry) {
       result = result.filter(c => c.country === selectedCountry);
-    }
+    };
 
     if ((selectedCheckInDate && selectedCheckOutDate) || selectedGuestsCount) {
       const castleIdsWithAvailableRooms = new Set(availableRooms.map(room => room.castleId));
       result = result.filter(c => c._id && castleIdsWithAvailableRooms.has(c._id));
-    }
+    };
 
     return result;
   };
@@ -62,15 +61,12 @@ const FilteredCastles = () => {
           {selectedGuestsCount > 0 &&
             <p className="flex gap-1 items-center"><AiOutlineUsergroupAdd /> {selectedGuestsCount}</p>
           }
-
         </>
-
         <div className="flex justify-between items-center">
           <p>{filteredCastles.length} found</p>
           <button className="outline-btn">Filter</button>
         </div>
       </header>
-
       <div className="flex flex-col gap-8 items-center md:flex-row md:items-start flex-wrap">
         {filteredCastles.length > 0 ? (
           filteredCastles.map(c => (
@@ -82,5 +78,5 @@ const FilteredCastles = () => {
       </div>
     </div>
   )
-}
-export default FilteredCastles
+};
+export default FilteredCastles;

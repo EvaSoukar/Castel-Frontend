@@ -9,5 +9,5 @@ const Home = () => {
       <CastlesCarousel />
     </div>
   )
-}
-export default Home
+};
+export default Home;

@@ -24,7 +24,8 @@ const CarouselCard = ({ castle }: CarouselCardProps) => {
 
   const handleClick = () => {
     navigate(`/castles/${castle._id}`)
-  }
+  };
+  
   return (
     <div onClick={handleClick} className="cursor-pointer min-w-40 max-w-48 lg:max-w-64 flex-shrink-0 bg-white shadow-md rounded-xl overflow-visible">
       <div className="aspect-[4/3] w-full rounded-t-xl overflow-hidden">
@@ -43,5 +44,5 @@ const CarouselCard = ({ castle }: CarouselCardProps) => {
       </div>
     </div>
   )
-}
-export default CarouselCard
+};
+export default CarouselCard;

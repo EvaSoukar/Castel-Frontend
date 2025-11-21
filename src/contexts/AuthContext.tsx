@@ -44,7 +44,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
     } catch (error: any) {
       setErrorMessage(error.response.data.message || "An error occurred. Please try again.");
     }
-  }
+  };
 
   const login = async (email: string, password: string) => {
     try {
@@ -62,25 +62,25 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
     } catch (error: any) {
       setErrorMessage(error.response.data.message || "Incorrect email or password.");
     }
-  }
+  };
 
   const logout = () => {
     setUser(null);
     setToken(null);
     localStorage.removeItem("authToken");
     localStorage.removeItem("authUser");
-  }
+  };
 
   const actions = {
     register,
     login,
     logout
-  }
+  };
 
   return (
     <AuthContext.Provider value={{ user, token, errorMessage, actions }}>{ children }</AuthContext.Provider>
   )
-}
+};
 
 const useAuth = () => {
   const context = useContext(AuthContext);

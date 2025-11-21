@@ -23,12 +23,12 @@ const Register = () => {
     if (!firstName || !lastName || !email || !phone || !password || !repeatPassword) {
       setErr("Please fill in all required fields.");
       return;
-    }
+    };
 
     if (password !== repeatPassword) {
       setErr("Passwords do not match");
       return;
-    }
+    };
     const user = {
       firstName,
       lastName,
@@ -41,13 +41,13 @@ const Register = () => {
 
     await actions.register(user);
     if (!errorMessage) {
-      navigate("/");
-    }
-  }
+      navigate(-2);
+    };
+  };
 
   const handleClose = () => {
-    navigate(-1);
-  }
+    navigate(-2);
+  };
 
   return (
     <div onClick={handleClose} className="fixed inset-0 flex justify-center items-center bg-black/40 backdrop-blur-sm">
@@ -144,5 +144,5 @@ const Register = () => {
       </div>
     </div>
   )
-}
-export default Register
+};
+export default Register;

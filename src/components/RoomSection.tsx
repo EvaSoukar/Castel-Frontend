@@ -22,7 +22,7 @@ export const RoomSection = ({ handleAddRoom }: RoomSectionProps) => {
     setRoomBeds([]);
     setRoomAmenities([]);
     setRoomPrice(1);
-  }
+  };
 
   const onAddRoom = () => {
     const newRoom: RoomForm = {
@@ -34,7 +34,7 @@ export const RoomSection = ({ handleAddRoom }: RoomSectionProps) => {
     }
     handleAddRoom(newRoom);
     resetRoomData();
-  }
+  };
 
   const handleAddBed = () => {
     if (bedCount && bedType) {
@@ -46,7 +46,8 @@ export const RoomSection = ({ handleAddRoom }: RoomSectionProps) => {
       setBedCount(0);
       setBedType("");
     }
-  }
+  };
+
   return (
     <div className="space-y-4">
       <h5 className="h5 mb-2">Add Rooms</h5>
@@ -58,15 +59,14 @@ export const RoomSection = ({ handleAddRoom }: RoomSectionProps) => {
         onChange={e => setRoomName(e.target.value)}
         required={true}
       />
-      {/* <input type="text" placeholder="Room name" value={roomName} onChange={e => setRoomName(e.target.value)} className="border px-2 py-1 rounded w-full" /> */}
       <label htmlFor="capacity">Capacity</label>
       <input
-        id="capacity" 
-        type="number" 
-        min={1} 
-        value={roomCapacity} 
-        onChange={e => setRoomCapacity(Number(e.target.value))} 
-        className="input" 
+        id="capacity"
+        type="number"
+        min={1}
+        value={roomCapacity}
+        onChange={e => setRoomCapacity(Number(e.target.value))}
+        className="input"
       />
       <div className="space-y-2">
         <h6 className="h6">Beds</h6>
@@ -86,20 +86,6 @@ export const RoomSection = ({ handleAddRoom }: RoomSectionProps) => {
             onChange={e => setBedCount(parseInt(e.target.value))}
           />
         </div>
-        {/* <input
-          type="text"
-          placeholder="Bed Type"
-          value={bedType}
-          onChange={e => setBedType(e.target.value)}
-          className="input"
-        /> */}
-        {/* <input
-          type="text"
-          placeholder="Beds count"
-          value={bedCount}
-          onChange={e => setBedCount(parseInt(e.target.value))}
-          className="border px-2 py-1 rounded w-1/2"
-        /> */}
         <button type="button" onClick={handleAddBed} className="outline-btn">Add Bed</button>
       </div>
       {roomBeds.length > 0 && (
@@ -111,17 +97,16 @@ export const RoomSection = ({ handleAddRoom }: RoomSectionProps) => {
       )}
       <CheckboxList label="Amenities" options={Object.values(ROOM_AMENITIES)} selected={roomAmenities} onChange={setRoomAmenities} />
       <label htmlFor="price">Price</label>
-      <input 
+      <input
         id="price"
-        type="number" 
-        min={1} 
+        type="number"
+        min={1}
         placeholder="Price"
-        value={roomPrice} 
-        onChange={e => setRoomPrice(Number(e.target.value))} 
-        className="input" 
+        value={roomPrice}
+        onChange={e => setRoomPrice(Number(e.target.value))}
+        className="input"
       />
-
       <button type="button" className="outline-btn" onClick={onAddRoom}>Add Room</button>
     </div>
   )
-}
+};

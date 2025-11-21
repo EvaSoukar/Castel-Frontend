@@ -47,16 +47,16 @@ const router = createBrowserRouter([
         element: <Register />
       },
       {
-        path: "myBookings",
-        element: <MyBooking />
-      },
-      {
         element: <PrivateRoute />,
         children: [
           {
             path: "create-castle",
             element: <CreateCastle />
-          }
+          },
+          {
+            path: "my-bookings",
+            element: <MyBooking />
+          },
         ]
       }
     ]

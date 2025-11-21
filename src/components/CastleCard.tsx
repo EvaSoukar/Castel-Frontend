@@ -16,7 +16,7 @@ export interface LocationData {
   road?: string;
   postcode?: string;
   [key: string]: any;
-}
+};
 
 export async function fetchLocationFromCoords(
   lat: number,
@@ -32,14 +32,13 @@ export async function fetchLocationFromCoords(
       });
 
     const res = await fetch(url, {
-      headers: { "User-Agent": "myapp-example/1.0" }, // Required by Nominatim
+      headers: { "User-Agent": "myapp-example/1.0" },
     });
 
     if (!res.ok) return null;
 
     const data = await res.json();
 
-    // Extract address info
     const { address } = data;
     if (!address) return null;
 
@@ -56,7 +55,7 @@ export async function fetchLocationFromCoords(
     console.error("Reverse geocoding failed:", error);
     return null;
   }
-}
+};
 
 const CastleCard = ({ castle }: CastleCardProps) => {
   const navigate = useNavigate();
@@ -74,8 +73,8 @@ const CastleCard = ({ castle }: CastleCardProps) => {
   }, []);
 
   const handleClick = () => {
-    navigate(`/castles/${castle._id}`)
-  }
+    navigate(`/castles/${castle._id}`);
+  };
 
   return (
     <div onClick={handleClick} className="cursor-pointer max-w-80 w-full flex flex-col gap-2 shadow-xl rounded-md overflow-hidden">
@@ -98,5 +97,5 @@ const CastleCard = ({ castle }: CastleCardProps) => {
       </div>
     </div>
   )
-}
-export default CastleCard
+};
+export default CastleCard;

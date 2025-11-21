@@ -5,7 +5,7 @@ import { MdOutlineKingBed } from "react-icons/md";
 type RoomViewProps = {
   castleID: string;
   onRoomSelected: (newRoomID: string) => void;
-}
+};
 
 export const RoomView = ({ castleID, onRoomSelected }: RoomViewProps) => {
   const { rooms, actions } = useRoom();
@@ -19,7 +19,7 @@ export const RoomView = ({ castleID, onRoomSelected }: RoomViewProps) => {
     }
     setSelectedRoom(roomId);
     onRoomSelected(roomId);
-  }
+  };
 
   useEffect(() => {
     actions.getRooms(castleID)
@@ -58,4 +58,4 @@ export const RoomView = ({ castleID, onRoomSelected }: RoomViewProps) => {
       )}
     </div>
   )
-}
+};

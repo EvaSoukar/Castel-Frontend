@@ -15,5 +15,5 @@ const Castles = () => {
       </div>
     </div>
   )
-}
-export default Castles
+};
+export default Castles;
